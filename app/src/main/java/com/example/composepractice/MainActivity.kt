@@ -4,6 +4,9 @@ import BasicsCodelabTheme
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -11,6 +14,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -30,19 +34,26 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MyApp(names: List<String> = listOf("World", "Compose")) {
-    Column(modifier = Modifier.padding(vertical = 4.dp)) {
-        for (name in names) {
+fun MyApp() {
+    var shouldShowOnboarding by rememberSaveable { mutableStateOf(true) }
+    if (shouldShowOnboarding) {
+        OnboardingScreen(onContinueClicked = { shouldShowOnboarding = false })
+    } else {
+        Greetings()
+    }
+}
+
+@Composable
+private fun Greetings(names: List<String> = List(1000) {"$it"}) {
+    LazyColumn(modifier = Modifier.padding(vertical = 4.dp)) {
+        items(items = names) { name ->
             Greeting(name = name)
         }
     }
 }
 
 @Composable
-fun OnboardingScreen() {
-    // TODO: This state should be hoisted
-    var shouldShowOnboarding by remember { mutableStateOf(true) }
-
+fun OnboardingScreen(onContinueClicked: () -> Unit) {
     Surface {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -52,7 +63,7 @@ fun OnboardingScreen() {
             Text("Welcome to the Basics Codelab!")
             Button(
                 modifier = Modifier.padding(vertical = 24.dp),
-                onClick = { shouldShowOnboarding = false }
+                onClick = onContinueClicked
             ) {
                 Text("Continue")
             }
@@ -66,14 +77,21 @@ private fun Greeting(name: String) {
         mutableStateOf(false)
     }
 
-    val extraPadding = if (expanded.value) 48.dp else 0.dp
+    val extraPadding by animateDpAsState(if (expanded.value) 48.dp else 0.dp, animationSpec = spring(
+        dampingRatio = Spring.DampingRatioMediumBouncy,
+        stiffness = Spring.StiffnessLow
+    ))
 
     Surface(
         color = MaterialTheme.colors.primary,
         modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp)
     ) {
         Row(modifier = Modifier.padding(24.dp)) {
-            Column(modifier = Modifier.weight(1f).padding(bottom = extraPadding)) {
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(bottom = extraPadding.coerceAtLeast(0.dp))
+            ) {
                 Text(text = "Hello, ")
                 Text(text = name)
             }
