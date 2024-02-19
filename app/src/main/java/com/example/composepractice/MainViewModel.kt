@@ -21,11 +21,23 @@ class MainViewModel(private val repository: MainRepository) : ViewModel() {
 
     private fun fetchItems() {
         _items.value = repository.getItem()
-        _itemsLiveData.value = repository.getItem()
+//        _itemsLiveData.value = repository.getItem()
+        _itemsLiveData.postValue(repository.getItem())
+        _itemsLiveData
     }
 
     fun addItem() {
-        repository.addItem(Item("New Item"))
+        repository.addItem()
+        fetchItems()
+    }
+
+    fun deleteItem(idx: Int) {
+        repository.deleteItem(idx)
+        fetchItems()
+    }
+
+    fun checkedItem(value: Boolean, index: Int) {
+        repository.checkedItem(value, index)
         fetchItems()
     }
 
