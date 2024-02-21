@@ -12,16 +12,38 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.flow
+
+val myFlow = flow<Int> {
+    for (i in 1..20) {
+        emit(i)
+        delay(1000L)
+    }
+}
 
 @Composable
-fun CounterApp(counterViewModel: CounterViewModel) {
+fun CounterApp() {
+
+
+    val currentValue = myFlow.collectAsState(initial = 0).value
+
+//    LaunchedEffect(key1 = "key", block = {
+//        CoroutineScope(Dispatchers.Main).launch {
+//            f.collect {
+//                value = it
+//                delay(1000L)
+//            }
+//        }
+//    })
+
+
+
+
 //    val count = counterViewModel.count
     Log.e("TAG", "CounterApp: ")
     Scaffold(
@@ -33,7 +55,6 @@ fun CounterApp(counterViewModel: CounterViewModel) {
             )
         },
         content = {
-            Log.e("TAG", "CounterApp: ${it}", )
             Column(
                 Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
@@ -41,14 +62,13 @@ fun CounterApp(counterViewModel: CounterViewModel) {
             ) {
                 Log.e("TAG", "Column: ")
                 Text(
-                    text = "Count: ${counterViewModel.count}",
+                    text = "Count: ${currentValue}",
                     style = MaterialTheme.typography.h4,
                     color = MaterialTheme.colors.onPrimary
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 Button(
                     onClick = {
-                        counterViewModel.increaseCount()
                     }
                 ) {
                     Log.e("TAG", "Button: ")
@@ -57,13 +77,4 @@ fun CounterApp(counterViewModel: CounterViewModel) {
             }
         }
     )
-}
-
-class CounterViewModel : ViewModel() {
-    private var _count by mutableStateOf(0)
-    val count: Int get() = _count
-
-    fun increaseCount() {
-        _count += 1
-    }
 }

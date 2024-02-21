@@ -41,11 +41,11 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val counterViewModel = viewModel<CounterViewModel>()
+//            val counterViewModel = viewModel<CounterViewModel>()
             BasicsCodelabTheme {
                 Surface {
 //                    MyApp(viewModel = mainViewModel)
-                    CounterApp(counterViewModel)
+                    CounterApp()
                 }
             }
         }
