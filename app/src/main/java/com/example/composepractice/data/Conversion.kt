@@ -1,4 +1,4 @@
-package com.example.composepractice
+package com.example.composepractice.data
 
 data class Conversion(
     val id: Int,

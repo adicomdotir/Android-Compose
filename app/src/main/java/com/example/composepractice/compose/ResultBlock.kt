@@ -1,4 +1,4 @@
-package com.example.composepractice
+package com.example.composepractice.compose
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
