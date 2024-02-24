@@ -9,16 +9,16 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
 import com.example.composepractice.compose.BaseScreen
-import com.example.composepractice.data.ConverterDatabase
-import com.example.composepractice.data.ConverterRepositoryImpl
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @Inject
+    lateinit var factory: ConverterViewModelFactory
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val dao = ConverterDatabase.getInstance(application).converterDAO
-        val repository = ConverterRepositoryImpl(dao)
-        val factory = ConverterViewModelFactory(repository)
 
         setContent {
             ComposePracticeTheme {
