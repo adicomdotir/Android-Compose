@@ -1,4 +1,4 @@
-package com.example.composepractice.compose
+package com.example.composepractice.compose.converter
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column

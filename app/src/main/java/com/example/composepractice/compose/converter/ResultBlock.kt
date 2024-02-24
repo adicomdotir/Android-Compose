@@ -1,4 +1,4 @@
-package com.example.composepractice.compose
+package com.example.composepractice.compose.converter
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
