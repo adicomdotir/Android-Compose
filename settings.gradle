@@ -10,3 +10,6 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Compose Practice"
 include ':app'
+include ':data'
+include ':domain'
+include ':common'
