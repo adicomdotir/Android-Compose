@@ -1,5 +1,6 @@
 package app.aec.data.network.di
 
+import app.aec.common.Constant
 import app.aec.data.network.ApiService
 import app.aec.data.repository.BlogsRepositoryImpl
 import app.aec.domain.repository.BlogsRepository
@@ -16,7 +17,7 @@ object DataModule {
     @Provides
     fun provideRetrofit(): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("")
+            .baseUrl(Constant.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }

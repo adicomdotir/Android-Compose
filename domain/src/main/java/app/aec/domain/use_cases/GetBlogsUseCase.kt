@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class GetBlogsUseCase @Inject constructor(private val blogsRepository: BlogsRepository) {
-    suspend operator fun invoke(): Flow<Resource<List<Blog>>> {
+    operator fun invoke(): Flow<Resource<List<Blog>>> {
         return flow {
             emit(Resource.Loading())
             try {
