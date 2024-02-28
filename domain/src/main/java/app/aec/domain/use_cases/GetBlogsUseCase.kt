@@ -12,7 +12,8 @@ class GetBlogsUseCase @Inject constructor(private val blogsRepository: BlogsRepo
         return flow {
             emit(Resource.Loading())
             try {
-
+                val res = blogsRepository.getBlogs()
+                emit(Resource.Success(data = res))
             } catch (e: Exception) {
                 emit(Resource.Error("Error occurred"))
             }
