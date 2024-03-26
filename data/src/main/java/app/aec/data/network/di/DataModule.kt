@@ -8,16 +8,27 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+
 
 @InstallIn(SingletonComponent::class)
 @Module
 object DataModule {
     @Provides
     fun provideRetrofit(): Retrofit {
+        val httpClient = OkHttpClient()
+        httpClient.networkInterceptors().add(Interceptor { chain ->
+            val requestBuilder: Request.Builder = chain.request().newBuilder()
+            requestBuilder.header("app-id", Constant.APP_ID)
+            chain.proceed(requestBuilder.build())
+        })
         return Retrofit.Builder()
             .baseUrl(Constant.BASE_URL)
+            .client(httpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }

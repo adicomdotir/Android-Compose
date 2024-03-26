@@ -25,6 +25,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import app.aec.domain.model.Blog
 import coil.compose.rememberImagePainter
@@ -32,7 +33,7 @@ import coil.compose.rememberImagePainter
 @Composable
 fun HomeScreen(
     navController: NavController,
-    viewModel: HomeViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
+    viewModel: HomeViewModel = hiltViewModel()
 ) {
 
     val res = viewModel.blogs.value

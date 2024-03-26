@@ -24,15 +24,15 @@ class HomeViewModel @Inject constructor(private val getBlogsUseCase: GetBlogsUse
     private fun getBlogs() {
         getBlogsUseCase().onEach {
             when (it) {
-                is Resource.Error -> {
+                is Resource.Loading -> {
                     _blogs.value = HomeState(isLoading = true)
                 }
 
-                is Resource.Loading -> {
+                is Resource.Success -> {
                     _blogs.value = HomeState(data = it.data)
                 }
 
-                is Resource.Success -> {
+                is Resource.Error -> {
                     _blogs.value = HomeState(error = it.message.toString())
                 }
             }
